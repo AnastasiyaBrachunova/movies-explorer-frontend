@@ -1,0 +1,39 @@
+.box-moveis {
+    width: 212px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+  }
+  
+  .box-moveis__movie {
+    width: 54px;
+    margin: 0 16px 0 0;
+    text-decoration: none;
+    font-family: "Inter", Georgia, "Times New Roman", Times, serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 18px;
+    text-align: right;
+    color: #ffffff;
+  }
+  
+  .box-moveis__stored-movie {
+    width: 142px;
+    text-decoration: none;
+    font-family: "Inter", Georgia, "Times New Roman", Times, serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    text-align: right;
+    color: #ffffff;
+  }
+  
+  @media (max-width: 767px) {
+    .box-moveis {
+      display: none;
+    }
+  }

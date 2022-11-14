@@ -1,0 +1,60 @@
+.box-switch {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  box-sizing: border-box;
+  max-width: 183px;
+  max-height: 32px;
+  justify-content: space-between;
+}
+
+.box-switch__signup {
+  margin: 0 30px 0 0;
+  font-family: "Inter", Georgia, "Times New Roman", Times, serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  text-decoration: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  text-align: right;
+  color: #ffffff;
+}
+
+.box-switch__signin {
+  background: #3ddc84;
+  border-radius: 3px;
+  font-family: "Inter", Georgia, "Times New Roman", Times, serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  text-decoration: none;
+  width: 76px;
+  height: 32px;
+  padding: 0;
+  box-sizing: border-box;
+  color: #000000;
+  cursor: pointer;
+  background-color: rgb(61, 220, 132, 1);
+  border: none;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  display: flex;
+  flex-direction: column;
+}
+
+.box-switch__signin:hover {
+  opacity: 0.6;
+  transition: 0.35s linear 0.001s;
+}
+
+.box-switch__signup:hover {
+  opacity: 0.6;
+  transition: 0.35s linear 0.001s;
+}
+
+

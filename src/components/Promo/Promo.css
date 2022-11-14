@@ -1,0 +1,123 @@
+.cover {
+  background-color: #073042;
+  width: 100%;
+  min-height: 648px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cover__title-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 640px;
+  max-height: 388px;
+  margin-left: 70px;
+}
+
+.cover__title {
+  max-width: 640px;
+  max-height: 174px;
+  font-family: "Inter", Georgia, "Times New Roman", Times, serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: calc(100vw / 21);
+  line-height: 58px;
+  color: #ffffff;
+  word-wrap: break-word;
+  margin: 0;
+}
+
+.cover__subscribe {
+  max-width: 310px;
+  max-height: 32px;
+  font-family: "Inter", Georgia, "Times New Roman", Times, serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  color: #ffffff;
+  mix-blend-mode: normal;
+  opacity: 0.5;
+  margin: 36px 0 146px;
+}
+
+.cover__link {
+  width: 129px;
+  min-height: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 3px;
+  font-family: "Inter", Georgia, "Times New Roman", Times, serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #ffffff;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: unset;
+}
+
+.cover__image {
+  max-width: 310px;
+  max-height: 304px;
+
+  margin: 0 70px 70px 0;
+
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+@media (min-width: 1281px) {
+  .cover__title{
+    font-size: 50px;
+
+  }
+}
+
+@media (max-width: 880px) {
+  .cover {
+    flex-direction: column-reverse;
+    padding-bottom: 78px;
+  }
+  .cover__image {
+    margin: 210px 70px 48px;
+  }
+  .cover__title-box {
+    margin: 0 auto;
+    text-align: center;
+    align-items: center;
+  }
+  .cover__subscribe {
+    margin-top: 22px;
+  }
+  .cover__title{
+    padding: 0 30px;
+  }
+}
+@media (max-width: 500px) {
+  .cover{
+    padding: 0;
+  }
+  .cover__image {
+    width: 210px;
+    height: 206px;
+    margin: 140px 55px 44px;
+  }
+  .cover__title {
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    padding: 0 14px;
+  }
+  .cover__subscribe{
+    margin-bottom: 80px;
+  }
+  .cover__link{
+    margin-bottom: 30px;
+  }
+}

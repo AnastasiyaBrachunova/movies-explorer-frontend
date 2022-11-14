@@ -1,0 +1,50 @@
+@import url(../../vendor/normalize/normalize.css); 
+@import url(../../vendor/fonts/fonts.css); 
+
+.App {
+  text-align: center;
+}
+
+.body {
+  background-color: #202020;
+  min-height: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+code {
+  font-family: "Inter", Georgia, "Times New Roman", Times, serif;
+}
+
+.button:hover:enabled {
+  opacity: 0.6;
+  transition: 0.35s linear 0.001s;
+  cursor: pointer;
+}
+
+.button:disabled {
+  cursor: default;
+}
+
+.link {
+text-decoration: none;
+}
+
+.link:hover:enabled {
+  opacity: 0.6;
+  transition: 0.35s linear 0.001s;
+  cursor: pointer;
+}
+
+.link:disabled {
+  cursor: default;
+}
+
+@media (max-width: 767px) {
+  .swith-component {
+    display: none;
+  }
+}
