@@ -1,0 +1,100 @@
+.movies-card {
+  height: 319px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  background: #222222;
+  box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+}
+
+.movies-card__description {
+  width: calc(100% - 18px * 2);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 18px 18px;
+  padding: 0;
+}
+.movies-card__title {
+  max-width: 240px;
+  margin: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-family: "Inter", Georgia, "Times New Roman", Times, serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 18px;
+  color: #ffffff;
+}
+.movies-card__duration {
+  max-width: 70px;
+  margin: 0;
+  font-family: "Inter", Georgia, "Times New Roman", Times, serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+  text-align: right;
+  color: #8b8b8b;
+}
+
+.movies-card__image {
+  width: 100%;
+  height: 200px;
+  margin: 0 0 18px 0;
+  object-fit: cover;
+  object-position: center;
+}
+
+.movies-card__button {
+  width: 100px;
+  height: 29px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 0;
+  margin: 0 0 18px 0;
+  justify-content: center;
+  background: #313131;
+  border-radius: 30px;
+  border: none;
+  text-align: center;
+  font-family: "Inter", Georgia, "Times New Roman", Times, serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 11px;
+  color: #ffffff;
+}
+
+.movies-card__button_added {
+  background: #ee3465;
+  background-image: url(../../images/icon__add__card__button.svg);
+  background-position: center;
+  background-size: auto;
+  background-repeat: no-repeat;
+}
+
+.movies-card__button_remove {
+  background-image: url(../../images/icon__removie__card__button.svg);
+  background-position: center;
+  background-size: auto;
+  background-repeat: no-repeat;
+}
+
+@media (min-width: 1300px) {
+  .movies-card {
+    height: 500px;
+  }
+  .movies-card__image {
+    height: 400px;
+  }
+}

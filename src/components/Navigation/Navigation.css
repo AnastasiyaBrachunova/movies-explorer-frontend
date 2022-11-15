@@ -1,0 +1,122 @@
+.menu__body {
+  display: none;
+}
+.menu-icon {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .menu-icon {
+    display: block;
+    z-index: 5;
+    position: relative;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    background-image: url(../../images/iconMenu.svg);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+
+  .menu-icon__close{
+    width: 22px;
+    height: 22px;
+    margin: 22px 22px 0 0;
+    position: fixed;
+    display: block;
+    z-index: 5;
+    position: relative;
+    cursor: pointer;
+    background-image: url(../../images/CloseIcon.svg);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  .menu-icon__close_disable{
+display: none;
+  }
+  .menu-icon__disable{
+    display: none;
+
+  }
+
+.menu__close{
+  width: 22px;
+  height: 22px;
+  margin: 22px 22px 0 0;
+  position: fixed;
+} 
+ .menu__body:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #000000;
+    opacity: 0.3;
+    z-index: -1;
+  }
+  .menu__body {
+    position: fixed;
+    display: none;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    transition: right 0.5s ease 0s;
+  }
+  .menu__body.active {
+    right: 0;
+    display: flex;
+  }
+
+  .menu__list {
+    margin: -50px 0 0 0;
+    padding: 0;
+    height: 100%;
+    width: calc(100% / 1.44);
+    background-color: #202020;
+    flex-wrap: wrap;
+  }
+  .menu__list > li {
+    margin: 28px auto 28px;
+    list-style-type: none;
+    width: 340px;
+    text-align: center;
+  }
+  .menu__list > li:first-child {
+    margin-top: 150px;
+  }
+  .menu__list > li:last-child {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: calc(100vh - 370px);
+  }
+
+  .menu__link {
+    text-decoration: none;
+    font-family: "Inter", Georgia, "Times New Roman", Times, serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    color: #ffffff;
+  }
+  .menu__link:hover {
+    text-decoration: underline;
+  }
+}
+@media (max-width: 493px) {
+  .menu__list {
+    width: 100%;
+  }
+}
