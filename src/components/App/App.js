@@ -1,5 +1,7 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom"; // импортируем Switch
+import { Route, Switch } from "react-router-dom";
+
+// import { mainApi } from "../../utils/MainApi";
 
 import "./App.css";
 import Header from "../Header/Header";
@@ -14,6 +16,7 @@ import BoxTypeMovies from "../BoxTypeMovies/BoxTypeMovies";
 import NavProfile from "../NavProfile/NavProfile";
 import Navigation from "../Navigation/Navigation";
 import Register from "../Register/Register";
+import Login from "../Login/Login";
 
 function App() {
   return (
@@ -59,7 +62,7 @@ function App() {
         </Route>
 
         <Route path="/signin">
-          <Register />
+          <Login />
         </Route>
 
         <Route path="/signup">
