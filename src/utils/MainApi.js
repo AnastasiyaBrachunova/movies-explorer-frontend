@@ -15,8 +15,21 @@ class MainApi {
     );
   }
 
-  setInitialCard(name, link) {
-    return this._fetch(`/cards`, {
+  addLikeMovieCard(
+    //добавление понравившейся карточки
+    movieId,
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailer,
+    nameRU,
+    nameEN,
+    thumbnail
+  ) {
+    return this._fetch(`/movies`, {
       method: `POST`,
       headers: {
         Accept: "application/json",
@@ -24,8 +37,17 @@ class MainApi {
         Authorization: `Bearer ${localStorage.getItem("jwt")}`,
       },
       body: JSON.stringify({
-        name: name,
-        link: link,
+        movieId: movieId,
+        country: country,
+        director: director,
+        duration: duration,
+        year: year,
+        description: description,
+        image: image,
+        trailer: trailer,
+        nameRU: nameRU,
+        nameEN: nameEN,
+        thumbnail: thumbnail
       }),
     });
   }
@@ -34,8 +56,9 @@ class MainApi {
     return Promise.all([this.getInitialCards(), this.getUserInfo()]);
   }
 
-  getInitialCards() {
-    return this._fetch(`/cards`, {
+  getInitialMovies() {
+    //получить карточки фильмов
+    return this._fetch(`/movies`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("jwt")}`,
         "Content-Type": "application/json",
@@ -44,15 +67,16 @@ class MainApi {
     });
   }
 
+  //
   getUserInfo() {
-    //получить данные
+    //получить данные текущего пользователя
     return this._fetch(`/users/me`, {
       Authorization: `Bearer ${localStorage.getItem("jwt")}`,
     });
   }
 
-  setUserInfo(name, about) {
-    //отправить данные
+  setUserInfo(name, email) {
+    //обновить данные пользователя
     return this._fetch(`/users/me`, {
       method: `PATCH`,
       headers: {
@@ -62,27 +86,28 @@ class MainApi {
       },
       body: JSON.stringify({
         name: name,
-        about: about,
+        email: email,
       }),
     });
   }
 
-  setUserAvatar(avatar) {
-    return this._fetch(`/users/me/avatar`, {
-      method: `PATCH`,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-      },
-      body: JSON.stringify({
-        avatar: avatar,
-      }),
-    });
-  }
+  // setUserAvatar(avatar) {
+  //   return this._fetch(`/users/me/avatar`, {
+  //     method: `PATCH`,
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+  //     },
+  //     body: JSON.stringify({
+  //       avatar: avatar,
+  //     }),
+  //   });
+  // }
 
-  delInitialCards(del) {
-    return this._fetch(`/cards/${del}`, {
+  delInitialMovie(del) {
+    //убрать лайк с карточки и удалить 
+    return this._fetch(`/movies/${del}`, {
       method: `DELETE`,
       headers: {
         Accept: "application/json",
@@ -95,23 +120,24 @@ class MainApi {
     });
   }
 
-  changeLikeCardStatus(id, isLiked) {
-    return this._fetch(`/cards/${id}/likes`, {
-      method: `${isLiked ? "DELETE" : "PUT"}`,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-      },
-      body: JSON.stringify({
-        _id: id,
-      }),
-    });
-  }
+//   changeLikeMovie(id, isLiked) {
+//     return this._fetch(`/cards/${id}/likes`, {
+//       method: `${isLiked ? "DELETE" : "PUT"}`,
+//       headers: {
+//         Accept: "application/json",
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+//       },
+//       body: JSON.stringify({
+//         _id: id,
+//       }),
+//     });
+//   }
 }
 
 export const mainApi = new MainApi({
   baseUrl: "https://api.brachunova.diplom.nomoredomains.icu",
+  
   headers: {
     Authorization: `Bearer ${localStorage.getItem("jwt")}`,
     "Content-Type": "application/json",

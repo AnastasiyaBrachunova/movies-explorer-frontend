@@ -13,7 +13,7 @@ export const register = (name, email, password) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      // Authorization: `Bearer ${localStorage.getItem("jwt")}`,
     },
     body: JSON.stringify({ name, email, password }),
   }).then(chekResponse);

@@ -1,81 +1,119 @@
-import React from "react";
-import { Route, Switch } from "react-router-dom";
-
-// import { mainApi } from "../../utils/MainApi";
+import React, { useEffect, useState } from "react";
+import { Route, Switch, useHistory } from "react-router-dom";
+import { CurrentUserContext } from "../../context/CurrentUserContext";
 
 import "./App.css";
-import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Movies from "../Movies/Movies";
-import Footer from "../Footer/Footer";
-import ErrorModal from "../ErrorModal/ErrorModal";
+import SavedMovies from "../SavedMovies/SavedMovies";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import Profile from "../Profile/Profile";
-import BoxSigninSignup from "../BoxSigninSignup/BoxSigninSignup";
-import BoxTypeMovies from "../BoxTypeMovies/BoxTypeMovies";
-import NavProfile from "../NavProfile/NavProfile";
-import Navigation from "../Navigation/Navigation";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
 
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import { checkToken } from "../../utils/UserAuth";
+import { moviesApi } from "../../utils/MoviesApi";
+
+
+
+
+
 function App() {
+  const [currentUser, setCurrentUser] = useState({
+    name: "",
+    email: "",
+    password: "",
+  }); // стейт для отслеживания текущего пользователя(лайки/токены/редакт инфо)
+
+  // const [serchMovie, setSearchMovie] = useState([]); //стейт поиска фильма
+
+  // const foundMovie = (serchMovie) => {
+  //   //функция поиска фильма
+  //   setSearchMovie(serchMovie);
+  // };
+
+  const [loggedIn, setLoggedIn] = useState(false); // стейт проверки логирования(в защищенные роуты и логин)
+  const [movieCards, setMovieCards] = useState([]); // стейт получения карточек с фильмами. Cards передать пропсом в компонент с отрисовкой
+
+  const history = useHistory();
+
+  useEffect(() => {
+
+    const token = localStorage.getItem("jwt");
+      token && checkToken(token).then((res) => {
+          if (res) {
+            setCurrentUser(res);
+            setLoggedIn(true);
+            history.push("/profile");
+          } else {
+            history.push("/singin");
+          }
+        }).catch((err) => console.log("Ошибка получения токена"));
+  
+    }, []);
+  
+    useEffect(() => {
+      const token = localStorage.getItem("jwt");
+      if (loggedIn) {
+         moviesApi
+          .getInitialCards(token)
+          .then((cardsData) => {
+            setMovieCards(cardsData);
+          })
+          .catch((err) => console.log("Ошибка получения массива карточек"));
+      }
+    }, [loggedIn]);
+
+
+
   return (
-    <div className="body">
-      <Switch>
-        <Route exact path="/">
-          <Header>
-            <BoxSigninSignup />
-          </Header>
-          <Main />
-          <Footer />
-        </Route>
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="body">
+        <Switch>
+          <Route exact path="/">
+            <Main 
+            
+            />
+          </Route>
 
-        <Route path="/saved-movies">
-          <Header>
-            <BoxTypeMovies />
-            <NavProfile />
-            <Navigation />
-          </Header>
-          <Movies />
-          <Footer />
-        </Route>
+          <ProtectedRoute
+            exact
+            path="/profile"
+            component={Profile}
+            loggedIn={loggedIn}
+          />
 
-        <Route path="/movies">
-          <Header>
-            <BoxTypeMovies />
-            <div className="swith-component">
-              <NavProfile />
-            </div>
-            <Navigation />
-          </Header>
-          <Movies />
-          <Footer />
-        </Route>
+          <ProtectedRoute
+            exact
+            path="/movies"
+            component={Movies}
+            loggedIn={loggedIn}
+            cards={movieCards}
+          />
 
-        <Route path="/profile">
-          <Header>
-            <BoxTypeMovies />
-            <NavProfile />
-            <Navigation />
-          </Header>
-          <Profile />
-        </Route>
+          <ProtectedRoute
+            exact
+            path="/saved-movies"
+            component={SavedMovies}
+            loggedIn={loggedIn}
+          />
 
-        <Route path="/signin">
-          <Login />
-        </Route>
+          <Route path="/signin">
+            <Login />
+          </Route>
 
-        <Route path="/signup">
-          <Register />
-        </Route>
+          <Route path="/signup">
+            <Register />
+          </Route>
 
-        <Route path="*">
-          <PageNotFound />
-        </Route>
+          <Route path="*">
+            <PageNotFound />
+          </Route>
 
-        <ErrorModal />
-      </Switch>
-    </div>
+        </Switch>
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 

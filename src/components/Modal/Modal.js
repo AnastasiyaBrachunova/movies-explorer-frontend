@@ -1,13 +1,14 @@
 import React from "react";
 import done from "../../images/registDone.png";
 // import bad from "../../images/registError.png";
-import "./ErrorModal.css";
+import "./Modal.css";
 
-function ErrorModal() {
+function Modal(props) {
   return (
     <section className="popup_opened">
+      <div className="popup__background"></div>
       <div className="popup__body">
-        <button className="popup-close button" type="button" />
+        <button className="popup-close button" type="button" onClick={()=> props.close()}/>
         <div className="modal">
           <img className="regist-img" src={done} alt="Результат регистрации" />
           <p className="regist-caption">
@@ -19,4 +20,4 @@ function ErrorModal() {
   );
 }
 
-export default ErrorModal;
+export default Modal;

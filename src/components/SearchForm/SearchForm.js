@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import "./SearchForm.css";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import loupe from "../../images/search_icon.svg";
 import find from '../../images/find-loupe.svg'
-function SearchForm() {
+import moviesApi from "../../utils/MoviesApi";
+
+
+function SearchForm(props) {
+
+  const searchInput = useRef('');
+
+
   return (
     <section className="section section_search">
       <div className="division-line">
@@ -15,6 +22,9 @@ function SearchForm() {
             type="search"
             name="q"
             placeholder="Фильм"
+            ref={searchInput}
+            onChange={(e)=> props.setSearchMovieValue(e.target.value)}
+            required min="3" max="25"
           />
           <button className="form-search__submit button" type="submit" value="">
             <img className="form-search__button-img" src={find} alt="Поиск" />

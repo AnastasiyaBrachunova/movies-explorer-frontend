@@ -1,16 +1,23 @@
 import React from "react";
 import { Link } from 'react-router-dom'; 
-
 import "../Register/Register.css";
-
 import "./Profile.css";
+import Header from "../Header/Header";
+import BoxTypeMovies from "../BoxTypeMovies/BoxTypeMovies";
+import NavProfile from "../NavProfile/NavProfile";
+import Navigation from "../Navigation/Navigation";
 
 function Profile() {
-  return (
+  return (<>
+    <Header>
+    <BoxTypeMovies />
+    <NavProfile />
+    <Navigation />
+  </Header>
     <section className="profile section">
       <div className="form__body form__body_profile">
         <form className="form" name="profile">
-          <h2 className="form__heading form__heading_profile">Привет, Виталий!</h2>
+          <h2 className="form__heading form__heading_profile">Привет, Виталий!</h2> 
           <div className="input-box input__box_profile">
             <div className="input-box__element input-box__element_profile">
               <p className="form__input-name form__input-name_profile">Имя </p>
@@ -37,7 +44,6 @@ function Profile() {
               />
             </div>
           </div>
-          {/* <>{props.children}</>  сюда потом вставляю инпуты и спаны  */}
         </form>
         <div className="link-box">
         <button className="profile__add-button" type="submit">
@@ -49,6 +55,7 @@ function Profile() {
         </div>
       </div>
     </section>
+    </>
   );
 }
 
