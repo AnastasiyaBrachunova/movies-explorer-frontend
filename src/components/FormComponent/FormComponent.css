@@ -49,7 +49,7 @@
 }
 .input-box__element {
   width: 100%;
-  height: 65px;
+  border-bottom: 1px solid #424242;
 }
 .form__input-name {
   width: 100%;
@@ -74,7 +74,6 @@
   color: #ffffff;
   background: transparent;
   border: none;
-  border-bottom: 1px solid #424242;
   padding: 0 0 5px 0;
   margin: 0 0 6px 0;
   outline: none;
@@ -136,6 +135,11 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px white inset;
   -webkit-text-fill-color: black;
+}
+
+.form__button-submit:disabled {
+  opacity: 0.6;
+  cursor:not-allowed;
 }
 
 @media (max-width: 500px) {

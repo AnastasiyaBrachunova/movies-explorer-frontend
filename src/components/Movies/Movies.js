@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./Movies.css";
 
 import Header from "../Header/Header";
@@ -6,45 +6,135 @@ import Footer from "../Footer/Footer";
 import BoxTypeMovies from "../BoxTypeMovies/BoxTypeMovies";
 import Navigation from "../Navigation/Navigation";
 import NavProfile from "../NavProfile/NavProfile";
-
+import { CurrentUserContext } from "../../context/CurrentUserContext";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import { CurrentUserContext } from "../../context/CurrentUserContext";
-import { moviesApi } from "../../utils/MoviesApi";
+import { useHistory } from "react-router-dom";
+import Preloader from "../Preloader/Preloader";
 
 function Movies(props) {
-  // const currentUser = useContext(CurrentUserContext);
-  const [searchMovie, setSearchMovie] = useState([]); // стейт получения результатов с инпута
+  const history = useHistory();
+  const currentUser = useContext(CurrentUserContext);
+  const isMovies = history.location.pathname === "/movies";
+  const isSavedMovies = history.location.pathname === "/saved-movies";
+  const [searchMovie, setSearchMovie] = useState("");
 
-  const getMovies = () => {
-    moviesApi.get
-      .then((responce) => {
-        setSearchMovie(responce.data);
-      })
-      .catch((err) => console.log("Ошибка получения массива карточек"));
+  const [shortMovie, setShortMovie] = useState(false);
+  const [findMovies, setFindMovies] = useState([]);
+  const [isClicked, setIsClicked] = useState([]);
+
+  useEffect(() => {
+    if (isMovies) {
+      localStorage.setItem("shortMoviesToggle", JSON.stringify(shortMovie));
+      localStorage.setItem("searchMovieValue", searchMovie);
+    }
+  }, [searchMovie, shortMovie]);
+
+  useEffect(() => {
+    setFindMovies(props.movies);
+  }, [props.movies]);
+
+  const handleSearch = () => {
+    const filteredBySearch = props.movies.filter((movie) => {
+      return movie.nameRU.toLowerCase().includes(searchMovie.toLowerCase());
+    });
+    setFindMovies(filteredBySearch);
+    setIsClicked(["off"]);
+    return filteredBySearch;
   };
 
   useEffect(() => {
-    getMovies();
-  }, []); //
+    if (isMovies && localStorage.getItem("searchMovieValue").length > 0) {
+      setSearchMovie(localStorage.getItem("searchMovieValue"));
+      setShortMovie(localStorage.getItem("shortMoviesToggle") === "true");
+    } else {
+      setSearchMovie("");
+      setShortMovie(false);
+    }
 
-  const [searchMovieValue, setSearchMovieValue] = useState("");
+    const filteredMovieLocal = JSON.parse(
+      localStorage.getItem("filteredMovie")
+    );
 
-  const filteredMovies = searchMovie.filter((movie) => {
-    return movie.name.toLowerCase().includes(searchMovieValue.toLowerCase());
-  });
+    if (isMovies && filteredMovieLocal && filteredMovieLocal.length >= 0) {
+      setFindMovies(filteredMovieLocal);
+    }
+  }, [isMovies]);
+
+  const sendToLocalFileredMovie = () => {
+    localStorage.setItem("filteredMovie", JSON.stringify(findMovies));
+  };
+
+  const isOwnCards = findMovies.filter(
+    (item) => item.owner === currentUser._id
+  );
 
   return (
     <>
       <Header>
-        <BoxTypeMovies />
+        <BoxTypeMovies
+          sendToLocalFileredMovie={() => sendToLocalFileredMovie()}
+        />
         <div className="swith-component">
           <NavProfile />
         </div>
         <Navigation />
       </Header>
-      <SearchForm setSearchMovieValue={setSearchMovieValue} />
-      <MoviesCardList movies={props.movies} />
+      <SearchForm
+        searchMovie={searchMovie}
+        handleSearch={() => handleSearch()}
+        setSearchMovie={setSearchMovie}
+        shortMovie={shortMovie}
+        setShortMovie={() => {
+          setShortMovie(!shortMovie);
+          !shortMovie
+            ? setFindMovies(
+                handleSearch().filter((item) => item.duration <= 40)
+              )
+            : setFindMovies(handleSearch());
+        }}
+      />
+
+      {props.isLoading ? (
+        <Preloader />
+      ) : (
+        <>
+          {/* BeatsMovies */}
+          {isMovies && isClicked.length === 0 ? (
+            <div className="movies__messageBlock">
+              Пожалуйста, введите название фильма
+            </div>
+          ) : findMovies.length > 0 ? (
+            isMovies ? (
+              <MoviesCardList
+                movies={findMovies}
+                savedMovies={props.savedMovies}
+                setSavedMovies={props.setSavedMovies}
+                setModal={props.setModal}
+                setError={props.setError}
+              />
+            ) : null
+          ) : (
+            <div className="movies__messageBlock">Ничего не найдено</div>
+          )}
+
+          {/* SavedMovies */}
+          {isSavedMovies ? (
+            isOwnCards.length > 0 ? (
+              <MoviesCardList
+                movies={isOwnCards}
+                savedMovies={props.savedMovies}
+                setSavedMovies={props.setSavedMovies}
+                setModal={props.setModal}
+                setError={props.setError}
+              />
+            ) : (
+              <div className="movies__messageBlock">Ничего не найдено</div>
+            )
+          ) : null}
+        </>
+      )}
+
       <Footer />
     </>
   );

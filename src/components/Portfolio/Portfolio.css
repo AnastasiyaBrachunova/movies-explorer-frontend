@@ -62,7 +62,7 @@
   .portfolio-link__description {
     font-size: 28px;
   }
-  .portfolio__list{
+  .portfolio__list {
     margin-bottom: 90px;
   }
 }
@@ -72,12 +72,11 @@
     font-size: 18px;
     line-height: 28px;
   }
-  .portfolio-link__image{
+  .portfolio-link__image {
     width: 18px;
     height: 28px;
   }
-  .portfolio__list{
+  .portfolio__list {
     margin-bottom: 70px;
-
   }
 }

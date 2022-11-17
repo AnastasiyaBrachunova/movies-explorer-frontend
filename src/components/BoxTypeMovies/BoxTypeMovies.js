@@ -1,17 +1,30 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import "./BoxTypeMovies.css";
 
-function BoxTypeMovies() {
+function BoxTypeMovies(props) {
+  const history = useHistory();
+
   return (
     <div className="box-moveis">
-      <Link className="box-moveis__movie" href="/movies">
+      <button
+        className="box-moveis__movie"
+        onClick={() => {
+          history.push("/movies");
+        }}
+      >
         Фильмы
-      </Link>
-      <Link className="box-moveis__stored-movie" href="/movies/me">
+      </button>
+      <button
+        className="box-moveis__movie"
+        onClick={() => {
+          history.push("/saved-movies");
+          props.sendToLocalFileredMovie();
+        }}
+      >
         Сохранённые фильмы
-      </Link>
+      </button>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from 'react-router-dom'; 
+import { Link } from "react-router-dom";
 
 import "./NavProfile.css";
 import profileIcon from "../../images/icon__COLOR_icon-main.svg";

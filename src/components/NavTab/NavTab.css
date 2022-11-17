@@ -144,24 +144,23 @@
 }
 
 @media (max-width: 500px) {
-  .section__title{
+  .section__title {
     margin-top: 70px;
   }
-  .section{
+  .section {
     padding: 0 18px;
   }
-  .table{
+  .table {
     flex-direction: column;
     margin-top: 60px;
-
   }
-  .table__cell{
+  .table__cell {
     width: 100%;
   }
-  .table__cell:first-child{
+  .table__cell:first-child {
     margin-bottom: 56px;
   }
-  .table__heading{
+  .table__heading {
     margin-bottom: 16px;
   }
   .infographics-box__type {

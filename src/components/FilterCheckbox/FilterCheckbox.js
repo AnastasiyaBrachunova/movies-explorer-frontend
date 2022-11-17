@@ -1,6 +1,6 @@
 import React from "react";
 import "./FilterCheckbox.css";
-function FilterCheckbox() {
+function FilterCheckbox(props) {
   return (
     <div className="filter-box">
       <label className="checkbox">
@@ -9,6 +9,8 @@ function FilterCheckbox() {
           type="checkbox"
           name="shortMovie"
           value="shortMovie"
+          checked={props.shortMovie}
+          onClick={props.setShortMovie}
         />
         <div className="checkbox__div"></div>
       </label>

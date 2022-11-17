@@ -8,7 +8,14 @@ function FormComponent(props) {
     <section className="form-component">
       <div className="form__body">
         <Header class="header_form" />
-        <form className="form" name="regist">
+        <form
+          className="form"
+          name="regist"
+          onSubmit={(e) => {
+            e.preventDefault();
+            props.onSubmit();
+          }}
+        >
           <h2 className="form__heading">{`${props.textHeader}`}</h2>
           <div className="input-box">
             <>{props.children}</>
@@ -16,11 +23,7 @@ function FormComponent(props) {
           <button
             className="form__button-submit button"
             type="submit"
-            onClick={(e) => {
-              e.preventDefault();
-              console.log(2)
-              props.onSubmit();
-            }}
+            disabled={props.disabledSubmit}
           >
             {`${props.textButton}`}
           </button>

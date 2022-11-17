@@ -24,11 +24,10 @@
   line-height: 13px;
   text-align: right;
 }
-.input-box__element:first-child {
-  border-bottom: 1px solid #424242;
-}
+
 .input-box__element:last-child {
   align-items: flex-end;
+  border: none;
 }
 .form__input-name_profile {
   width: 50%;
@@ -69,6 +68,12 @@
   background-color: unset;
   cursor: pointer;
 }
+
+.profile__add-button:disabled {
+  opacity: 0.6;
+  cursor: no-drop;
+}
+
 .profile__link_exit {
   color: #ee3465;
   margin-top: 16px;
@@ -76,7 +81,7 @@
 }
 
 @media (max-width: 500px) {
-  .profile{
+  .profile {
     width: calc(100vw - 60px);
   }
   .form__heading_profile {
@@ -84,7 +89,7 @@
     font-size: 24px;
     line-height: 29px;
   }
-  .form__body_profile{
+  .form__body_profile {
     width: 100%;
   }
 }

@@ -1,5 +1,5 @@
-@import url(../../vendor/normalize/normalize.css); 
-@import url(../../vendor/fonts/fonts.css); 
+@import url(../../vendor/normalize/normalize.css);
+@import url(../../vendor/fonts/fonts.css);
 
 .App {
   text-align: center;
@@ -30,7 +30,7 @@ code {
 }
 
 .link {
-text-decoration: none;
+  text-decoration: none;
 }
 
 .link:hover:enabled {

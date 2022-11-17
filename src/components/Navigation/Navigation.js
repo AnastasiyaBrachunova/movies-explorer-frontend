@@ -18,9 +18,7 @@ function Navigation() {
           menuActive ? () => setMenuActive(false) : () => setMenuActive(true)
         }
       />
-      <nav
-        className={menuActive ? "menu__body active" : "menu__body"}
-      >
+      <nav className={menuActive ? "menu__body active" : "menu__body"}>
         <ul className="menu__list">
           <li>
             <Link className="menu__link" to="/">

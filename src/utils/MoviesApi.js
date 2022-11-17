@@ -15,11 +15,10 @@ class MoviesApi {
     );
   }
 
-  getSearchlMovies() {
-    //получить карточки фильмов
+  getBeatsMovies() {
     return this._fetch(`/beatfilm-movies`, {
       headers: {
-       "Content-Type": "application/json",
+        "Content-Type": "application/json",
       },
       method: "GET",
     });
