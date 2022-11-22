@@ -102,11 +102,9 @@ function App() {
     mainApi
       .getInitialMovies()
       .then((res) => {
-        setIsloading(false);
         setSavedMovies(res);
       })
       .catch((err) => {
-        setIsloading(false);
         setModal(true);
         setErrorModal(err);
         console.log("Ошибка получения массива карточек");
@@ -125,30 +123,27 @@ function App() {
     // if (localStorageMovies && localStorageMovies.length > 0) {
     //   setBeatsMovies(localStorageMovies);
     // } else {
+      setIsloading(true);
+      let array = [];
 
-    setIsloading(true);
-    let array = [];
+      await moviesApi
+        .getBeatsMovies()
+        .then((res) => {
+          setIsloading(false);
+          setBeatsMovies(res);
+          array = res;
+          localStorage.setItem("beatsMovies", JSON.stringify(res));
+        })
+        .catch((err) => {
+          setIsloading(false);
+          setModal(true);
+          setErrorModal(err);
+          console.log("Ошибка получения массива карточек");
+        });
 
-    await moviesApi
-      .getBeatsMovies()
-      .then((res) => {
-        setIsloading(false);
-        setBeatsMovies(res);
-        array = res;
-        localStorage.setItem("beatsMovies", JSON.stringify(res));
-      })
-      .catch((err) => {
-        setIsloading(false);
-        setModal(true);
-        setErrorModal(err);
-        console.log("Ошибка получения массива карточек");
-      });
-
-
-    return array;
+      return array;
+    // }
   };
-
- 
 
   const logout = () => {
     history.push("/signin");
@@ -185,6 +180,7 @@ function App() {
             setModal={() => setModal(true)}
             setError={() => setErrorModal(true)}
             getBeatsMovies={() => getBeatsMovies()}
+            isLoading={isLoading}
           />
 
           <ProtectedRoute

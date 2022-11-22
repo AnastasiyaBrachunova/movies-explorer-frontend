@@ -16,6 +16,7 @@ function Movies(props) {
   const history = useHistory();
   const currentUser = useContext(CurrentUserContext);
   const isMovies = history.location.pathname === "/movies";
+  const isMain = history.location.pathname === "/";
   const isSavedMovies = history.location.pathname === "/saved-movies";
   const [searchMovie, setSearchMovie] = useState("");
 
@@ -30,9 +31,11 @@ function Movies(props) {
     }
   }, [searchMovie, shortMovie]);
 
-  // useEffect(() => {
-  //   setFindMovies(props.movies);
-  // }, [props.movies]);
+  useEffect(() => {
+    if (isSavedMovies) {
+      setFindMovies(props.movies);
+    }
+  }, [props.movies]);
 
   const handleSearch = (movieArray) => {
     const movies = movieArray ? movieArray : props.movies;
@@ -98,7 +101,7 @@ function Movies(props) {
               )
             : setFindMovies(handleSearch());
         }}
-        findMovies={findMovies}
+        findMovies={isClicked.length === 0}
       />
 
       {props.isLoading ? (

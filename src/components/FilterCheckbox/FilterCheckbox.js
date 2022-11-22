@@ -1,7 +1,7 @@
 import React from "react";
 import "./FilterCheckbox.css";
 function FilterCheckbox(props) {
-  const disable = props.findMovies && props.findMovies.length === 0
+  const disable = props.findMovies;
 
   return (
     <div className="filter-box">
