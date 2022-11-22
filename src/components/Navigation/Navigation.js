@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import NavProfile from "../NavProfile/NavProfile";
 import "./Navigation.css";
 
-function Navigation() {
+function Navigation(props) {
   const [menuActive, setMenuActive] = useState(false);
 
   return (
@@ -21,7 +21,13 @@ function Navigation() {
       <nav className={menuActive ? "menu__body active" : "menu__body"}>
         <ul className="menu__list">
           <li>
-            <Link className="menu__link" to="/">
+            <Link
+              className="menu__link"
+              to="/"
+              onClick={() =>
+                props.sendToLocalFileredMovie && props.sendToLocalFileredMovie()
+              }
+            >
               Главная
             </Link>
           </li>
@@ -31,7 +37,13 @@ function Navigation() {
             </Link>
           </li>
           <li>
-            <Link className="menu__link" to="/saved-movies">
+            <Link
+              className="menu__link"
+              to="/saved-movies"
+              onClick={() =>
+                props.sendToLocalFileredMovie && props.sendToLocalFileredMovie()
+              }
+            >
               Сохранённые фильмы
             </Link>
           </li>

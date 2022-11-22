@@ -83,9 +83,9 @@ function Movies(props) {
           sendToLocalFileredMovie={() => sendToLocalFileredMovie()}
         />
         <div className="swith-component">
-          <NavProfile />
+          <NavProfile sendToLocalFileredMovie={() => sendToLocalFileredMovie()}/>
         </div>
-        <Navigation />
+        <Navigation sendToLocalFileredMovie={() => sendToLocalFileredMovie()}/>
       </Header>
       <SearchForm
         searchMovie={searchMovie}
