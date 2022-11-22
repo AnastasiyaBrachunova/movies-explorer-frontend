@@ -36,6 +36,7 @@
 }
 .movies-card__duration {
   max-width: 70px;
+  min-width: 50px;
   margin: 0;
   font-family: "Inter", Georgia, "Times New Roman", Times, serif;
   font-style: normal;

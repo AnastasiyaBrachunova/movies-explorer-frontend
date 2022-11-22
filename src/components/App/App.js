@@ -92,37 +92,76 @@ function App() {
   };
 
   //********** Загрузка фильмов **************
-  useEffect(() => {
-    if (loggedIn) {
-      const localStorageMovies = JSON.parse(
-        localStorage.getItem("beatsMovies")
-      );
+  // useEffect(() => {
+  //   if (loggedIn) {
+      // const localStorageMovies = JSON.parse(
+      //   localStorage.getItem("beatsMovies")
+      // );
 
-      if (localStorageMovies && localStorageMovies.length > 0) {
-        setBeatsMovies(localStorageMovies);
-      } else {
-        setIsloading(true);
-        moviesApi
-          .getBeatsMovies()
-          .then((res) => {
-            setIsloading(false);
-            setBeatsMovies(res);
+      // if (localStorageMovies && localStorageMovies.length > 0) {
+      //   setBeatsMovies(localStorageMovies);
+      // } else {
+      //   setIsloading(true);
+      //   moviesApi
+      //     .getBeatsMovies()
+      //     .then((res) => {
+      //       setIsloading(false);
+      //       setBeatsMovies(res);
 
-            localStorage.setItem("beatsMovies", JSON.stringify(res));
-          })
-          .catch((err) => {
-            setIsloading(false);
-            setModal(true);
-            setErrorModal(err);
-            console.log("Ошибка получения массива карточек");
-          });
-      }
+      //       localStorage.setItem("beatsMovies", JSON.stringify(res));
+      //     })
+      //     .catch((err) => {
+      //       setIsloading(false);
+      //       setModal(true);
+      //       setErrorModal(err);
+      //       console.log("Ошибка получения массива карточек");
+      //     });
+      // }
 
-      mainApi
-        .getInitialMovies()
+  //     mainApi
+  //       .getInitialMovies()
+  //       .then((res) => {
+  //         setIsloading(false);
+  //         setSavedMovies(res);
+  //       })
+  //       .catch((err) => {
+  //         setIsloading(false);
+  //         setModal(true);
+  //         setErrorModal(err);
+  //         console.log("Ошибка получения массива карточек");
+  //       });
+  //   }
+  // }, [loggedIn]);
+
+  const getSavedMovies = () => {
+    mainApi
+      .getInitialMovies()
+      .then((res) => {
+        setIsloading(false);
+        setSavedMovies(res);
+      })
+      .catch((err) => {
+        setIsloading(false);
+        setModal(true);
+        setErrorModal(err);
+        console.log("Ошибка получения массива карточек");
+      });
+  };
+
+  const getBeatsMovies = () => {
+    const localStorageMovies = JSON.parse(localStorage.getItem("beatsMovies"));
+
+    if (localStorageMovies && localStorageMovies.length > 0) {
+      setBeatsMovies(localStorageMovies);
+    } else {
+      setIsloading(true);
+      moviesApi
+        .getBeatsMovies()
         .then((res) => {
           setIsloading(false);
-          setSavedMovies(res);
+          setBeatsMovies(res);
+
+          localStorage.setItem("beatsMovies", JSON.stringify(res));
         })
         .catch((err) => {
           setIsloading(false);
@@ -131,7 +170,9 @@ function App() {
           console.log("Ошибка получения массива карточек");
         });
     }
-  }, [loggedIn]);
+
+    getSavedMovies();
+  };
 
   const logout = () => {
     history.push("/signin");
@@ -167,6 +208,7 @@ function App() {
             setSavedMovies={(arr) => setSavedMovies(arr)}
             setModal={() => setModal(true)}
             setError={() => setErrorModal(true)}
+            getBeatsMovies={() => getBeatsMovies()}
           />
 
           <ProtectedRoute
@@ -216,9 +258,7 @@ function App() {
             onClose={() => {
               setModal(false);
               setErrorModal("");
-              if (
-                errorModal.includes("401")
-              ) {
+              if (errorModal.includes("401")) {
                 logout();
               }
             }}

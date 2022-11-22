@@ -82,7 +82,10 @@ function Movies(props) {
       </Header>
       <SearchForm
         searchMovie={searchMovie}
-        handleSearch={() => handleSearch()}
+        handleSearch={() => {
+          props.movies.length === 0 && props.getBeatsMovies();
+          handleSearch();
+        }}
         setSearchMovie={setSearchMovie}
         shortMovie={shortMovie}
         setShortMovie={() => {

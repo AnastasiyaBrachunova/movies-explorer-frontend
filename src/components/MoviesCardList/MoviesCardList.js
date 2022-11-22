@@ -32,6 +32,10 @@ function MoviesCardList(props) {
   };
 
   useEffect(() => {
+    setBaseRender(baseCards())
+  }, [props.movies])
+
+  useEffect(() => {
     setBaseRender(baseCards());
   }, [isMoviesPath, isSavedMoviesPath]);
 
