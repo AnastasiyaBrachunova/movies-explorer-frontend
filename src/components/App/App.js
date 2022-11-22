@@ -154,7 +154,7 @@ function App() {
       <div className="body">
         <Switch>
           <Route exact path="/">
-            <Main />
+            <Main loggedIn={loggedIn}/>
           </Route>
 
           <ProtectedRoute

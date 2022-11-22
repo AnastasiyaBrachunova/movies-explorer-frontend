@@ -20,7 +20,7 @@ function BoxTypeMovies(props) {
         className="box-moveis__movie"
         onClick={() => {
           history.push("/saved-movies");
-          props.sendToLocalFileredMovie();
+          props.sendToLocalFileredMovie && props.sendToLocalFileredMovie();
         }}
       >
         Сохранённые фильмы
