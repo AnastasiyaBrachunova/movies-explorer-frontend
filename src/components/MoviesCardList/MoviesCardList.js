@@ -31,14 +31,6 @@ function MoviesCardList(props) {
     if (widthScreen < 1280) setBaseRender(baseRender + 2);
   };
 
-  useEffect(() => {
-    setBaseRender(baseCards());
-  }, [props.movies]);
-
-  useEffect(() => {
-    setBaseRender(baseCards());
-  }, [isMoviesPath, isSavedMoviesPath]);
-
   const renderMovies = props.movies && props.movies.slice(0, baseRender);
 
   return (

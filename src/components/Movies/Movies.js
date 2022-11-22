@@ -27,8 +27,6 @@ function Movies(props) {
   const [findMovies, setFindMovies] = useState([]);
   const [isClicked, setIsClicked] = useState([]);
 
-  console.log(findMovies)
-
   useEffect(() => {
     if (isMovies) {
       localStorage.setItem("shortMoviesToggle", JSON.stringify(shortMovie));
