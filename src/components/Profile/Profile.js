@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "./Profile.css";
 import Header from "../Header/Header";
 import BoxTypeMovies from "../BoxTypeMovies/BoxTypeMovies";
@@ -135,6 +135,7 @@ function Profile(props) {
               className="profile__link profile__link_exit"
               to="/"
               onClick={() => {
+                props.setLoggedIn();
                 localStorage.clear();
               }}
             >

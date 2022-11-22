@@ -27,7 +27,8 @@ function Movies(props) {
   useEffect(() => {
     if (isMovies) {
       localStorage.setItem("shortMoviesToggle", JSON.stringify(shortMovie));
-      localStorage.setItem("searchMovieValue", searchMovie);
+      searchMovie.length > 0 &&
+        localStorage.setItem("searchMovieValue", searchMovie);
     }
   }, [searchMovie, shortMovie]);
 
@@ -48,10 +49,11 @@ function Movies(props) {
   };
 
   useEffect(() => {
-    if (isMovies && localStorage.getItem("searchMovieValue").length > 0) {
+    if (isMovies && localStorage.getItem("searchMovieValue") && localStorage.getItem("searchMovieValue").length > 0) {
       setSearchMovie(localStorage.getItem("searchMovieValue"));
+
       setShortMovie(localStorage.getItem("shortMoviesToggle") === "true");
-    } else {
+    } else if (isSavedMovies) {
       setSearchMovie("");
       setShortMovie(false);
     }
@@ -61,9 +63,10 @@ function Movies(props) {
     );
 
     if (isMovies && filteredMovieLocal && filteredMovieLocal.length >= 0) {
+      setIsClicked(["off"]);
       setFindMovies(filteredMovieLocal);
     }
-  }, [isMovies]);
+  }, [isMovies, isSavedMovies]);
 
   const sendToLocalFileredMovie = () => {
     localStorage.setItem("filteredMovie", JSON.stringify(findMovies));
