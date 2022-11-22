@@ -50,6 +50,8 @@ function Movies(props) {
     setIsClicked(["off"]);
     // sendToLocalFileredMovie(filteredBySearch)
     return filteredBySearch;
+
+    
   };
 
   useEffect(() => {
@@ -86,16 +88,16 @@ function Movies(props) {
 
   return (
     <>
-      <Header sendToLocalFileredMovie={() => sendToLocalFileredMovie()}>
+      <Header sendToLocalFileredMovie={() => isMovies && sendToLocalFileredMovie()}>
         <BoxTypeMovies
-          sendToLocalFileredMovie={() => sendToLocalFileredMovie()}
+          sendToLocalFileredMovie={() => isMovies &&  sendToLocalFileredMovie()}
         />
         <div className="swith-component">
           <NavProfile
-            sendToLocalFileredMovie={() => sendToLocalFileredMovie()}
+            sendToLocalFileredMovie={() => isMovies &&  sendToLocalFileredMovie()}
           />
         </div>
-        <Navigation sendToLocalFileredMovie={() => sendToLocalFileredMovie()} />
+        <Navigation sendToLocalFileredMovie={() => isMovies &&  sendToLocalFileredMovie()} />
       </Header>
       <SearchForm
         searchMovie={searchMovie}
