@@ -16,11 +16,14 @@ function Movies(props) {
   const history = useHistory();
   const currentUser = useContext(CurrentUserContext);
   const isMovies = history.location.pathname === "/movies";
-  const isMain = history.location.pathname === "/";
   const isSavedMovies = history.location.pathname === "/saved-movies";
   const [searchMovie, setSearchMovie] = useState("");
 
-  const [shortMovie, setShortMovie] = useState(false);
+  const [shortMovie, setShortMovie] = useState(
+    localStorage.getItem("shortMoviesToggle")
+      ? JSON.parse(localStorage.getItem("shortMoviesToggle"))
+      : false
+  );
   const [findMovies, setFindMovies] = useState([]);
   const [isClicked, setIsClicked] = useState([]);
 
@@ -45,11 +48,16 @@ function Movies(props) {
     });
     setFindMovies(filteredBySearch);
     setIsClicked(["off"]);
+    // sendToLocalFileredMovie(filteredBySearch)
     return filteredBySearch;
   };
 
   useEffect(() => {
-    if (isMovies && localStorage.getItem("searchMovieValue") && localStorage.getItem("searchMovieValue").length > 0) {
+    if (
+      isMovies &&
+      localStorage.getItem("searchMovieValue") &&
+      localStorage.getItem("searchMovieValue").length > 0
+    ) {
       setSearchMovie(localStorage.getItem("searchMovieValue"));
 
       setShortMovie(localStorage.getItem("shortMoviesToggle") === "true");
@@ -78,14 +86,16 @@ function Movies(props) {
 
   return (
     <>
-      <Header>
+      <Header sendToLocalFileredMovie={() => sendToLocalFileredMovie()}>
         <BoxTypeMovies
           sendToLocalFileredMovie={() => sendToLocalFileredMovie()}
         />
         <div className="swith-component">
-          <NavProfile sendToLocalFileredMovie={() => sendToLocalFileredMovie()}/>
+          <NavProfile
+            sendToLocalFileredMovie={() => sendToLocalFileredMovie()}
+          />
         </div>
-        <Navigation sendToLocalFileredMovie={() => sendToLocalFileredMovie()}/>
+        <Navigation sendToLocalFileredMovie={() => sendToLocalFileredMovie()} />
       </Header>
       <SearchForm
         searchMovie={searchMovie}
