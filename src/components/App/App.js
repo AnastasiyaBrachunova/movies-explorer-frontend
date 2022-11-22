@@ -27,11 +27,30 @@ function App() {
 
   const history = useHistory();
 
+  const getUserInfo = () => {
+    mainApi
+      .getUserInfo()
+      .then((res) => {
+        setCurrentUser({
+          email: res.email,
+          name: res.name,
+          _id: res._id,
+        });
+      })
+      .catch((err) => {
+        setModal(true);
+        setErrorModal(err);
+        console.log("Ошибка получения дынных пользователя");
+      });
+  };
+
   const handleRegister = (name, email, password) => {
     register(name, email, password)
       .then((res) => {
         if (res) {
-          history.push("/signin");
+          getUserInfo();
+          setLoggedIn(true);
+          history.push("/movies");
           setModal(true);
         }
       })
@@ -46,24 +65,11 @@ function App() {
     autorize(email, password)
       .then((res) => {
         if (res) {
+          getUserInfo();
           setLoggedIn(true);
           history.push("/movies");
           setModal(true);
-
-          mainApi
-            .getUserInfo()
-            .then((res) => {
-              setCurrentUser({
-                email: res.email,
-                name: res.name,
-                _id: res._id,
-              });
-            })
-            .catch((err) => {
-              setModal(true);
-              setErrorModal(err);
-              console.log("Ошибка получения дынных пользователя");
-            });
+          
         }
       })
       .catch((err) => {

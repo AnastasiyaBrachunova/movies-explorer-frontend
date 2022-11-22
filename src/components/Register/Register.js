@@ -102,7 +102,7 @@ function Register(props) {
             name="email"
             type="email"
             autoComplete="off"
-            minLength="2"
+            minLength="6"
             maxLength="40"
             required
             value={emailInput.value}
@@ -143,7 +143,7 @@ function Register(props) {
             name="password"
             type="password"
             autoComplete="off"
-            minLength="2"
+            minLength="6"
             maxLength="40"
             required
             value={passwordInput.value}
@@ -160,7 +160,7 @@ function Register(props) {
           passwordInput.isDirty &&
           passwordInput.minLengthError && (
             <span id="name-error" className="form__input-error name-error">
-              Введите минимум 2 символа
+              Введите минимум 6 символов
             </span>
           )}
         {!passwordInput.isEmpty &&
