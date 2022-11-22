@@ -92,46 +92,6 @@ function App() {
   };
 
   //********** Загрузка фильмов **************
-  // useEffect(() => {
-  //   if (loggedIn) {
-      // const localStorageMovies = JSON.parse(
-      //   localStorage.getItem("beatsMovies")
-      // );
-
-      // if (localStorageMovies && localStorageMovies.length > 0) {
-      //   setBeatsMovies(localStorageMovies);
-      // } else {
-      //   setIsloading(true);
-      //   moviesApi
-      //     .getBeatsMovies()
-      //     .then((res) => {
-      //       setIsloading(false);
-      //       setBeatsMovies(res);
-
-      //       localStorage.setItem("beatsMovies", JSON.stringify(res));
-      //     })
-      //     .catch((err) => {
-      //       setIsloading(false);
-      //       setModal(true);
-      //       setErrorModal(err);
-      //       console.log("Ошибка получения массива карточек");
-      //     });
-      // }
-
-  //     mainApi
-  //       .getInitialMovies()
-  //       .then((res) => {
-  //         setIsloading(false);
-  //         setSavedMovies(res);
-  //       })
-  //       .catch((err) => {
-  //         setIsloading(false);
-  //         setModal(true);
-  //         setErrorModal(err);
-  //         console.log("Ошибка получения массива карточек");
-  //       });
-  //   }
-  // }, [loggedIn]);
 
   const getSavedMovies = () => {
     mainApi
@@ -147,6 +107,12 @@ function App() {
         console.log("Ошибка получения массива карточек");
       });
   };
+
+  useEffect(() => {
+    if (loggedIn) {
+      getSavedMovies();
+    }
+  }, [loggedIn]);
 
   const getBeatsMovies = () => {
     const localStorageMovies = JSON.parse(localStorage.getItem("beatsMovies"));
@@ -170,8 +136,6 @@ function App() {
           console.log("Ошибка получения массива карточек");
         });
     }
-
-    getSavedMovies();
   };
 
   const logout = () => {
