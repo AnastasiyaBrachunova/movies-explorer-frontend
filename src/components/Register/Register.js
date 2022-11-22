@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 import "./Register.css";
@@ -69,28 +69,36 @@ function Register(props) {
                 required
                 value={nameInput.value}
                 onChange={(e) => nameInput.onChange(e)}
-                onBlur={(e) => nameInput.onBlur(e)}
+                onFocus={(e) => nameInput.onBlur(e)}
               />
             </div>
-            {nameInput.isDirty && nameInput.isEmpty && (
-              <span id="name-error" className="form__input-error name-error">
-                Поле не может быть пустым
-              </span>
-            )}
-            {!nameInput.isEmpty &&
-              nameInput.isDirty &&
-              nameInput.minLengthError && (
+            <div className="form__error">
+              {nameInput.isDirty && nameInput.isEmpty && (
                 <span id="name-error" className="form__input-error name-error">
-                  Введите минимум 2 символа
+                  Поле не может быть пустым
                 </span>
               )}
-            {!nameInput.isEmpty &&
-              nameInput.isDirty &&
-              nameInput.maxLengthError && (
-                <span id="name-error" className="form__input-error name-error">
-                  Вы превысили лимит знаков
-                </span>
-              )}
+              {!nameInput.isEmpty &&
+                nameInput.isDirty &&
+                nameInput.minLengthError && (
+                  <span
+                    id="name-error"
+                    className="form__input-error name-error"
+                  >
+                    Введите минимум 2 символа
+                  </span>
+                )}
+              {!nameInput.isEmpty &&
+                nameInput.isDirty &&
+                nameInput.maxLengthError && (
+                  <span
+                    id="name-error"
+                    className="form__input-error name-error"
+                  >
+                    Вы превысили лимит знаков
+                  </span>
+                )}
+            </div>
           </>
         )}
 
@@ -107,33 +115,39 @@ function Register(props) {
             required
             value={emailInput.value}
             onChange={(e) => emailInput.onChange(e)}
-            onBlur={(e) => emailInput.onBlur(e)}
+            onFocus={(e) => emailInput.onBlur(e)}
           />
         </div>
-        {emailInput.isDirty && emailInput.isEmpty && (
-          <span id="name-error" className="form__input-error name-error">
-            Поле не моет быть пустым
-          </span>
-        )}
-        {!emailInput.isEmpty &&
-          emailInput.isDirty &&
-          emailInput.minLengthError && (
+        <div className="form__error">
+          {emailInput.isDirty && emailInput.isEmpty && (
             <span id="name-error" className="form__input-error name-error">
-              Введите минимум 6 символов
+              Поле не моет быть пустым
             </span>
           )}
-        {!emailInput.isEmpty &&
-          emailInput.isDirty &&
-          emailInput.maxLengthError && (
-            <span id="name-error" className="form__input-error name-error">
-              Вы превысили лимит знаков
-            </span>
-          )}
-        {!emailInput.isEmpty && !emailInput.minLengthError && emailInput.isDirty && emailInput.emailError && (
-          <span id="name-error" className="form__input-error name-error">
-            Некорректный email
-          </span>
-        )}
+          {!emailInput.isEmpty &&
+            emailInput.isDirty &&
+            emailInput.minLengthError && (
+              <span id="name-error" className="form__input-error name-error">
+                Введите минимум 6 символов
+              </span>
+            )}
+          {!emailInput.isEmpty &&
+            emailInput.isDirty &&
+            emailInput.maxLengthError && (
+              <span id="name-error" className="form__input-error name-error">
+                Вы превысили лимит знаков
+              </span>
+            )}
+          {!emailInput.isEmpty &&
+            !emailInput.minLengthError &&
+            emailInput.isDirty &&
+            emailInput.emailError && (
+              <span id="name-error" className="form__input-error name-error">
+                Некорректный email
+              </span>
+            )}
+        </div>
+
         <div className="input-box__element">
           <p className="form__input-name">Пароль</p>
 
@@ -148,28 +162,30 @@ function Register(props) {
             required
             value={passwordInput.value}
             onChange={(e) => passwordInput.onChange(e)}
-            onBlur={(e) => passwordInput.onBlur(e)}
+            onFocus={(e) => passwordInput.onBlur(e)}
           />
         </div>
-        {passwordInput.isDirty && passwordInput.isEmpty && (
-          <span id="name-error" className="form__input-error name-error">
-            Поле не моет быть пустым
-          </span>
-        )}
-        {!passwordInput.isEmpty &&
-          passwordInput.isDirty &&
-          passwordInput.minLengthError && (
+        <div className="form__error">
+          {passwordInput.isDirty && passwordInput.isEmpty && (
             <span id="name-error" className="form__input-error name-error">
-              Введите минимум 6 символов
+              Поле не моет быть пустым
             </span>
           )}
-        {!passwordInput.isEmpty &&
-          passwordInput.isDirty &&
-          passwordInput.maxLengthError && (
-            <span id="name-error" className="form__input-error name-error">
-              Вы превысили лимит знаков
-            </span>
-          )}
+          {!passwordInput.isEmpty &&
+            passwordInput.isDirty &&
+            passwordInput.minLengthError && (
+              <span id="name-error" className="form__input-error name-error">
+                Введите минимум 6 символов
+              </span>
+            )}
+          {!passwordInput.isEmpty &&
+            passwordInput.isDirty &&
+            passwordInput.maxLengthError && (
+              <span id="name-error" className="form__input-error name-error">
+                Вы превысили лимит знаков
+              </span>
+            )}
+        </div>
       </FormComponent>
     </>
   );

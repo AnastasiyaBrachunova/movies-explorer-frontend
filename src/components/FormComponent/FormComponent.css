@@ -49,7 +49,7 @@
 }
 .input-box__element {
   width: 100%;
-  border-bottom: 1px solid #424242;
+  
 }
 .form__input-name {
   width: 100%;
@@ -63,6 +63,7 @@
 }
 .form__input {
   width: 100%;
+  border: none;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -73,13 +74,13 @@
   line-height: 17px;
   color: #ffffff;
   background: transparent;
-  border: none;
+  border-bottom: 1px solid #424242;
   padding: 0 0 5px 0;
   margin: 0 0 6px 0;
   outline: none;
 }
 .form__input:focus {
-  border: none;
+
   background: transparent;
 }
 
@@ -170,4 +171,13 @@ input:-webkit-autofill:active {
     font-size: 12px;
     line-height: 15px;
   }
+}
+
+.form__error {
+  width: 100%;
+  height: 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-bottom: 6px;
 }
