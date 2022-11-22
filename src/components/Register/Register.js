@@ -77,16 +77,20 @@ function Register(props) {
                 Поле не может быть пустым
               </span>
             )}
-            {nameInput.isDirty && nameInput.minLengthError && (
-              <span id="name-error" className="form__input-error name-error">
-                Введите минимум 2 символа
-              </span>
-            )}
-            {nameInput.isDirty && nameInput.maxLengthError && (
-              <span id="name-error" className="form__input-error name-error">
-                Вы превысили лимит знаков
-              </span>
-            )}
+            {!nameInput.isEmpty &&
+              nameInput.isDirty &&
+              nameInput.minLengthError && (
+                <span id="name-error" className="form__input-error name-error">
+                  Введите минимум 2 символа
+                </span>
+              )}
+            {!nameInput.isEmpty &&
+              nameInput.isDirty &&
+              nameInput.maxLengthError && (
+                <span id="name-error" className="form__input-error name-error">
+                  Вы превысили лимит знаков
+                </span>
+              )}
           </>
         )}
 
@@ -111,17 +115,21 @@ function Register(props) {
             Поле не моет быть пустым
           </span>
         )}
-        {emailInput.isDirty && emailInput.minLengthError && (
-          <span id="name-error" className="form__input-error name-error">
-            Введите минимум 6 символов
-          </span>
-        )}
-        {emailInput.isDirty && emailInput.maxLengthError && (
-          <span id="name-error" className="form__input-error name-error">
-            Вы превысили лимит знаков
-          </span>
-        )}
-        {emailInput.isDirty && emailInput.emailError && (
+        {!emailInput.isEmpty &&
+          emailInput.isDirty &&
+          emailInput.minLengthError && (
+            <span id="name-error" className="form__input-error name-error">
+              Введите минимум 6 символов
+            </span>
+          )}
+        {!emailInput.isEmpty &&
+          emailInput.isDirty &&
+          emailInput.maxLengthError && (
+            <span id="name-error" className="form__input-error name-error">
+              Вы превысили лимит знаков
+            </span>
+          )}
+        {!emailInput.isEmpty && !emailInput.minLengthError && emailInput.isDirty && emailInput.emailError && (
           <span id="name-error" className="form__input-error name-error">
             Некорректный email
           </span>
@@ -148,16 +156,20 @@ function Register(props) {
             Поле не моет быть пустым
           </span>
         )}
-        {passwordInput.isDirty && passwordInput.minLengthError && (
-          <span id="name-error" className="form__input-error name-error">
-            Введите минимум 2 символа
-          </span>
-        )}
-        {passwordInput.isDirty && passwordInput.maxLengthError && (
-          <span id="name-error" className="form__input-error name-error">
-            Вы превысили лимит знаков
-          </span>
-        )}
+        {!passwordInput.isEmpty &&
+          passwordInput.isDirty &&
+          passwordInput.minLengthError && (
+            <span id="name-error" className="form__input-error name-error">
+              Введите минимум 2 символа
+            </span>
+          )}
+        {!passwordInput.isEmpty &&
+          passwordInput.isDirty &&
+          passwordInput.maxLengthError && (
+            <span id="name-error" className="form__input-error name-error">
+              Вы превысили лимит знаков
+            </span>
+          )}
       </FormComponent>
     </>
   );
