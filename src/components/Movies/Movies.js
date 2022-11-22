@@ -44,44 +44,31 @@ function Movies(props) {
   }, [props.movies]);
 
   const handleSearch = async (short) => {
+    const letSearch = (movies) => {
+      const array = movies;
+
+      const filteredBySearch = short
+        ? array
+            .filter((movie) => {
+              return movie.nameRU
+                .toLowerCase()
+                .includes(searchMovie.toLowerCase());
+            })
+            .filter((item) => item.duration <= 40)
+        : array.filter((movie) => {
+            return movie.nameRU
+              .toLowerCase()
+              .includes(searchMovie.toLowerCase());
+          });
+      localStorage.setItem("filteredMovie", JSON.stringify(filteredBySearch));
+      setFindMovies(filteredBySearch);
+      setIsClicked(["off"]);
+    }
+
     if (props.movies.length > 0) {
-      const filteredBySearch = short
-        ? props.movies
-            .filter((movie) => {
-              return movie.nameRU
-                .toLowerCase()
-                .includes(searchMovie.toLowerCase());
-            })
-            .filter((item) => item.duration <= 40)
-        : props.movies.filter((movie) => {
-            return movie.nameRU
-              .toLowerCase()
-              .includes(searchMovie.toLowerCase());
-          });
-      localStorage.setItem("filteredMovie", JSON.stringify(filteredBySearch));
-      setFindMovies(filteredBySearch);
-      setIsClicked(["off"]);
+      letSearch(props.movies)
     } else {
-      const movies = await props.getBeatsMovies();
-
-      const filteredBySearch = short
-        ? movies
-            .filter((movie) => {
-              return movie.nameRU
-                .toLowerCase()
-                .includes(searchMovie.toLowerCase());
-            })
-            .filter((item) => item.duration <= 40)
-        : movies.filter((movie) => {
-            return movie.nameRU
-              .toLowerCase()
-              .includes(searchMovie.toLowerCase());
-          });
-      localStorage.setItem("filteredMovie", JSON.stringify(filteredBySearch));
-      setFindMovies(filteredBySearch);
-      setIsClicked(["off"]);
-
-      
+      letSearch(await props.getBeatsMovies())
     }
   };
 
