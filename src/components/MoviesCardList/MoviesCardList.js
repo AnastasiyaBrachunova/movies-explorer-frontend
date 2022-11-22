@@ -25,15 +25,15 @@ function MoviesCardList(props) {
 
   const widthScreen = window.screen.width;
   const [baseRender, setBaseRender] = useState(baseCards());
-
+  console.log(props.movies, baseRender);
   const addMovies = () => {
     if (widthScreen >= 1280) setBaseRender(baseRender + 3);
     if (widthScreen < 1280) setBaseRender(baseRender + 2);
   };
 
   useEffect(() => {
-    setBaseRender(baseCards())
-  }, [props.movies])
+    setBaseRender(baseCards());
+  }, [props.movies]);
 
   useEffect(() => {
     setBaseRender(baseCards());

@@ -27,6 +27,8 @@ function Movies(props) {
   const [findMovies, setFindMovies] = useState([]);
   const [isClicked, setIsClicked] = useState([]);
 
+  console.log(findMovies)
+
   useEffect(() => {
     if (isMovies) {
       localStorage.setItem("shortMoviesToggle", JSON.stringify(shortMovie));
@@ -41,17 +43,46 @@ function Movies(props) {
     }
   }, [props.movies]);
 
-  const handleSearch = (movieArray) => {
-    const movies = movieArray ? movieArray : props.movies;
-    const filteredBySearch = movies.filter((movie) => {
-      return movie.nameRU.toLowerCase().includes(searchMovie.toLowerCase());
-    });
-    setFindMovies(filteredBySearch);
-    setIsClicked(["off"]);
-    // sendToLocalFileredMovie(filteredBySearch)
-    return filteredBySearch;
+  const handleSearch = async (short) => {
+    if (props.movies.length > 0) {
+      const filteredBySearch = short
+        ? props.movies
+            .filter((movie) => {
+              return movie.nameRU
+                .toLowerCase()
+                .includes(searchMovie.toLowerCase());
+            })
+            .filter((item) => item.duration <= 40)
+        : props.movies.filter((movie) => {
+            return movie.nameRU
+              .toLowerCase()
+              .includes(searchMovie.toLowerCase());
+          });
+      localStorage.setItem("filteredMovie", JSON.stringify(filteredBySearch));
+      setFindMovies(filteredBySearch);
+      setIsClicked(["off"]);
+    } else {
+      const movies = await props.getBeatsMovies();
 
-    
+      const filteredBySearch = short
+        ? movies
+            .filter((movie) => {
+              return movie.nameRU
+                .toLowerCase()
+                .includes(searchMovie.toLowerCase());
+            })
+            .filter((item) => item.duration <= 40)
+        : movies.filter((movie) => {
+            return movie.nameRU
+              .toLowerCase()
+              .includes(searchMovie.toLowerCase());
+          });
+      localStorage.setItem("filteredMovie", JSON.stringify(filteredBySearch));
+      setFindMovies(filteredBySearch);
+      setIsClicked(["off"]);
+
+      
+    }
   };
 
   useEffect(() => {
@@ -78,43 +109,29 @@ function Movies(props) {
     }
   }, [isMovies, isSavedMovies]);
 
-  const sendToLocalFileredMovie = () => {
-    localStorage.setItem("filteredMovie", JSON.stringify(findMovies));
-  };
-
   const isOwnCards = findMovies.filter(
     (item) => item.owner === currentUser._id
   );
 
   return (
     <>
-      <Header sendToLocalFileredMovie={() => isMovies && sendToLocalFileredMovie()}>
-        <BoxTypeMovies
-          sendToLocalFileredMovie={() => isMovies &&  sendToLocalFileredMovie()}
-        />
+      <Header>
+        <BoxTypeMovies />
         <div className="swith-component">
-          <NavProfile
-            sendToLocalFileredMovie={() => isMovies &&  sendToLocalFileredMovie()}
-          />
+          <NavProfile />
         </div>
-        <Navigation sendToLocalFileredMovie={() => isMovies &&  sendToLocalFileredMovie()} />
+        <Navigation />
       </Header>
       <SearchForm
         searchMovie={searchMovie}
         handleSearch={async () => {
-          props.movies.length === 0
-            ? handleSearch(await props.getBeatsMovies())
-            : handleSearch();
+          handleSearch();
         }}
         setSearchMovie={setSearchMovie}
         shortMovie={shortMovie}
         setShortMovie={() => {
           setShortMovie(!shortMovie);
-          !shortMovie
-            ? setFindMovies(
-                handleSearch().filter((item) => item.duration <= 40)
-              )
-            : setFindMovies(handleSearch());
+          handleSearch(!shortMovie);
         }}
         findMovies={isClicked.length === 0}
       />

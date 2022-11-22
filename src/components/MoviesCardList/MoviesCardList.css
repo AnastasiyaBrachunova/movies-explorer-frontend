@@ -33,7 +33,7 @@
   color: #ffffff;
 }
 
-@media (max-width: 855px) {
+@media (max-width: 1280px) {
   .movie-gallery {
     grid-template-columns: repeat(2, 1fr);
     gap: 24px 35px;
