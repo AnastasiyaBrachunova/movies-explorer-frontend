@@ -69,7 +69,6 @@ function App() {
           setLoggedIn(true);
           history.push("/movies");
           setModal(true);
-          
         }
       })
       .catch((err) => {
@@ -120,29 +119,36 @@ function App() {
     }
   }, [loggedIn]);
 
-  const getBeatsMovies = () => {
-    const localStorageMovies = JSON.parse(localStorage.getItem("beatsMovies"));
+  const getBeatsMovies = async () => {
+    // const localStorageMovies = JSON.parse(localStorage.getItem("beatsMovies"));
 
-    if (localStorageMovies && localStorageMovies.length > 0) {
-      setBeatsMovies(localStorageMovies);
-    } else {
-      setIsloading(true);
-      moviesApi
-        .getBeatsMovies()
-        .then((res) => {
-          setIsloading(false);
-          setBeatsMovies(res);
+    // if (localStorageMovies && localStorageMovies.length > 0) {
+    //   setBeatsMovies(localStorageMovies);
+    // } else {
 
-          localStorage.setItem("beatsMovies", JSON.stringify(res));
-        })
-        .catch((err) => {
-          setIsloading(false);
-          setModal(true);
-          setErrorModal(err);
-          console.log("Ошибка получения массива карточек");
-        });
-    }
+    setIsloading(true);
+    let array = [];
+
+    await moviesApi
+      .getBeatsMovies()
+      .then((res) => {
+        setIsloading(false);
+        setBeatsMovies(res);
+        array = res;
+        localStorage.setItem("beatsMovies", JSON.stringify(res));
+      })
+      .catch((err) => {
+        setIsloading(false);
+        setModal(true);
+        setErrorModal(err);
+        console.log("Ошибка получения массива карточек");
+      });
+
+
+    return array;
   };
+
+ 
 
   const logout = () => {
     history.push("/signin");
@@ -154,7 +160,7 @@ function App() {
       <div className="body">
         <Switch>
           <Route exact path="/">
-            <Main loggedIn={loggedIn}/>
+            <Main loggedIn={loggedIn} />
           </Route>
 
           <ProtectedRoute

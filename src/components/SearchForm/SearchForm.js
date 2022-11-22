@@ -75,6 +75,7 @@ function SearchForm(props) {
             <FilterCheckbox
               setShortMovie={props.setShortMovie}
               shortMovie={props.shortMovie}
+              findMovies={props.findMovies}
             />
           </form>
           <div className="form__validation">

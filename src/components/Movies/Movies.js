@@ -30,12 +30,13 @@ function Movies(props) {
     }
   }, [searchMovie, shortMovie]);
 
-  useEffect(() => {
-    setFindMovies(props.movies);
-  }, [props.movies]);
+  // useEffect(() => {
+  //   setFindMovies(props.movies);
+  // }, [props.movies]);
 
-  const handleSearch = () => {
-    const filteredBySearch = props.movies.filter((movie) => {
+  const handleSearch = (movieArray) => {
+    const movies = movieArray ? movieArray : props.movies;
+    const filteredBySearch = movies.filter((movie) => {
       return movie.nameRU.toLowerCase().includes(searchMovie.toLowerCase());
     });
     setFindMovies(filteredBySearch);
@@ -82,9 +83,10 @@ function Movies(props) {
       </Header>
       <SearchForm
         searchMovie={searchMovie}
-        handleSearch={() => {
-          props.movies.length === 0 && props.getBeatsMovies();
-          handleSearch();
+        handleSearch={async () => {
+          props.movies.length === 0
+            ? handleSearch(await props.getBeatsMovies())
+            : handleSearch();
         }}
         setSearchMovie={setSearchMovie}
         shortMovie={shortMovie}
@@ -96,6 +98,7 @@ function Movies(props) {
               )
             : setFindMovies(handleSearch());
         }}
+        findMovies={findMovies}
       />
 
       {props.isLoading ? (
