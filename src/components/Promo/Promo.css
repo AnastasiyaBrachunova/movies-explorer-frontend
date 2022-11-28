@@ -73,9 +73,8 @@
 }
 
 @media (min-width: 1281px) {
-  .cover__title{
+  .cover__title {
     font-size: 50px;
-
   }
 }
 
@@ -95,12 +94,12 @@
   .cover__subscribe {
     margin-top: 22px;
   }
-  .cover__title{
+  .cover__title {
     padding: 0 30px;
   }
 }
 @media (max-width: 500px) {
-  .cover{
+  .cover {
     padding: 0;
   }
   .cover__image {
@@ -114,10 +113,10 @@
     line-height: 38px;
     padding: 0 14px;
   }
-  .cover__subscribe{
+  .cover__subscribe {
     margin-bottom: 80px;
   }
-  .cover__link{
+  .cover__link {
     margin-bottom: 30px;
   }
 }

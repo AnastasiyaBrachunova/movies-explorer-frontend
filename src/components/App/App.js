@@ -1,81 +1,253 @@
-import React from "react";
-import { Route, Switch } from "react-router-dom";
-
-// import { mainApi } from "../../utils/MainApi";
-
+import React, { useEffect, useState } from "react";
+import { Route, Switch, useHistory } from "react-router-dom";
+import { CurrentUserContext } from "../../context/CurrentUserContext";
+import { register } from "../../utils/UserAuth";
 import "./App.css";
-import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Movies from "../Movies/Movies";
-import Footer from "../Footer/Footer";
-import ErrorModal from "../ErrorModal/ErrorModal";
+
 import PageNotFound from "../PageNotFound/PageNotFound";
 import Profile from "../Profile/Profile";
-import BoxSigninSignup from "../BoxSigninSignup/BoxSigninSignup";
-import BoxTypeMovies from "../BoxTypeMovies/BoxTypeMovies";
-import NavProfile from "../NavProfile/NavProfile";
-import Navigation from "../Navigation/Navigation";
 import Register from "../Register/Register";
-import Login from "../Login/Login";
+
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import { autorize } from "../../utils/UserAuth";
+import { moviesApi } from "../../utils/MoviesApi";
+import Modal from "../Modal/Modal";
+import { mainApi } from "../../utils/MainApi";
 
 function App() {
+  const [currentUser, setCurrentUser] = useState({});
+  const [loggedIn, setLoggedIn] = useState(false); // стейт проверки логирования(в защищенные роуты и логин)
+  const [beatsMovies, setBeatsMovies] = useState([]);
+  const [savedMovies, setSavedMovies] = useState([]);
+  const [isModal, setModal] = useState(false); //открытие модалки ответа решистрации
+  const [errorModal, setErrorModal] = useState("");
+  const [isLoading, setIsloading] = useState(false);
+
+  const history = useHistory();
+  const jwt = localStorage.getItem("jwt")
+
+  useEffect(() => {
+    if (jwt) {
+      getUserInfo();
+      setLoggedIn(true);
+    }
+  }, []);
+
+  const getUserInfo = () => {
+    mainApi
+      .getUserInfo()
+      .then((res) => {
+        setCurrentUser({
+          email: res.email,
+          name: res.name,
+          _id: res._id,
+        });
+      })
+      .catch((err) => {
+        setModal(true);
+        setErrorModal(err);
+        console.log("Ошибка получения дынных пользователя");
+      });
+  };
+
+  const handleRegister = (name, email, password) => {
+    register(name, email, password)
+      .then((res) => {
+        if (res) {
+          getUserInfo();
+          setLoggedIn(true);
+          history.push("/movies");
+          setModal(true);
+        }
+      })
+      .catch((err) => {
+        setModal(true);
+        setErrorModal(err);
+        console.log("Ошибка регистрации пользователя");
+      });
+  };
+
+  const handleLogin = (email, password) => {
+    autorize(email, password)
+      .then((res) => {
+        if (res) {
+          getUserInfo();
+          setLoggedIn(true);
+          history.push("/movies");
+          setModal(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setModal(true);
+        setErrorModal(err);
+        console.log("Ошибка авторизации");
+      });
+  };
+
+  // const handleGetUserData = () => {};
+
+  // редактирование данных профиля
+  const handleUpdateUser = (dataUser) => {
+    mainApi
+      .setUserInfo(dataUser.name, dataUser.email)
+      .then((res) => {
+        setCurrentUser(res);
+        setModal(true);
+      })
+      .catch((err) => {
+        console.log("Ошибка обновления данных пользователя");
+        setModal(true);
+        setErrorModal(err);
+      });
+  };
+
+  //********** Загрузка фильмов **************
+
+  const getSavedMovies = () => {
+    mainApi
+      .getInitialMovies()
+      .then((res) => {
+        setSavedMovies(res);
+      })
+      .catch((err) => {
+        setModal(true);
+        setErrorModal(err);
+        console.log("Ошибка получения массива карточек");
+      });
+  };
+
+  useEffect(() => {
+    if (loggedIn) {
+      getSavedMovies();
+    }
+  }, [loggedIn]);
+
+  const getBeatsMovies = async () => {
+    // const localStorageMovies = JSON.parse(localStorage.getItem("beatsMovies"));
+
+    // if (localStorageMovies && localStorageMovies.length > 0) {
+    //   setBeatsMovies(localStorageMovies);
+    // } else {
+    setIsloading(true);
+    let array = [];
+
+    await moviesApi
+      .getBeatsMovies()
+      .then((res) => {
+        setIsloading(false);
+        setBeatsMovies(res);
+        array = res;
+        localStorage.setItem("beatsMovies", JSON.stringify(res));
+      })
+      .catch((err) => {
+        setIsloading(false);
+        setModal(true);
+        setErrorModal(err);
+        console.log("Ошибка получения массива карточек");
+      });
+
+    return array;
+    // }
+  };
+
+  const logout = () => {
+    history.push("/signin");
+    localStorage.clear();
+  };
+
   return (
-    <div className="body">
-      <Switch>
-        <Route exact path="/">
-          <Header>
-            <BoxSigninSignup />
-          </Header>
-          <Main />
-          <Footer />
-        </Route>
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="body">
+        <Switch>
+          <Route exact path="/">
+            <Main loggedIn={loggedIn} />
+          </Route>
 
-        <Route path="/saved-movies">
-          <Header>
-            <BoxTypeMovies />
-            <NavProfile />
-            <Navigation />
-          </Header>
-          <Movies />
-          <Footer />
-        </Route>
+          <ProtectedRoute
+            exact
+            path="/profile"
+            component={Profile}
+            email={currentUser.email}
+            name={currentUser.name}
+            onModal={() => setModal(true)}
+            loggedIn={loggedIn}
+            onUpdateUser={handleUpdateUser}
+            setLoggedIn={()=> setLoggedIn(false)}
+          />
 
-        <Route path="/movies">
-          <Header>
-            <BoxTypeMovies />
-            <div className="swith-component">
-              <NavProfile />
-            </div>
-            <Navigation />
-          </Header>
-          <Movies />
-          <Footer />
-        </Route>
+          <ProtectedRoute
+            exact
+            path="/movies"
+            component={Movies}
+            loggedIn={loggedIn}
+            movies={beatsMovies}
+            savedMovies={savedMovies}
+            setSavedMovies={(arr) => setSavedMovies(arr)}
+            setModal={() => setModal(true)}
+            setError={() => setErrorModal(true)}
+            getBeatsMovies={() => getBeatsMovies()}
+            isLoading={isLoading}
+          />
 
-        <Route path="/profile">
-          <Header>
-            <BoxTypeMovies />
-            <NavProfile />
-            <Navigation />
-          </Header>
-          <Profile />
-        </Route>
+          <ProtectedRoute
+            exact
+            path="/saved-movies"
+            component={Movies}
+            loggedIn={loggedIn}
+            movies={savedMovies}
+            setSavedMovies={(arr) => setSavedMovies(arr)}
+            savedMovies={savedMovies}
+            isLoading={isLoading}
+            setModal={() => setModal(true)}
+            setError={() => setErrorModal(true)}
+          />
 
-        <Route path="/signin">
-          <Login />
-        </Route>
+          <Route path="/signin">
+            <Register
+              onModal={() => setModal(true)}
+              handleSubmit={handleLogin}
+            />
+          </Route>
 
-        <Route path="/signup">
-          <Register />
-        </Route>
+          <Route path="/signup">
+            <Register
+              onModal={() => setModal(true)}
+              handleSubmit={handleRegister}
+            />
+          </Route>
 
-        <Route path="*">
-          <PageNotFound />
-        </Route>
+          <Route path="*">
+            <PageNotFound />
+          </Route>
+        </Switch>
 
-        <ErrorModal />
-      </Switch>
-    </div>
+        {!errorModal && (
+          <Modal
+            isOpen={isModal}
+            onClose={() => {
+              setModal(false);
+            }}
+          />
+        )}
+
+        {errorModal && (
+          <Modal
+            isOpen={isModal}
+            onClose={() => {
+              setModal(false);
+              setErrorModal("");
+              if (errorModal.includes("401")) {
+                logout();
+              }
+            }}
+            onError={errorModal}
+          />
+        )}
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 

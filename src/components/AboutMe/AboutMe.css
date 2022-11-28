@@ -18,7 +18,7 @@
 
 .student__image {
   max-width: 270px;
-    max-height: 327px;
+  max-height: 327px;
   background-repeat: no-repeat;
   background-size: contain;
 }
@@ -70,7 +70,7 @@
 }
 
 @media (max-width: 1010px) {
-  .info{
+  .info {
     margin-right: 10px;
   }
 }
@@ -91,21 +91,20 @@
     font-size: calc(100vh / 75);
     line-height: 18px;
   }
-  .student__image{
+  .student__image {
     max-width: 255px;
     max-height: 307px;
   }
 }
 @media (max-width: 570px) {
-.info{
-  margin-top: 40px;
+  .info {
+    margin-top: 40px;
   }
-  .student{
+  .student {
     flex-direction: column-reverse;
     margin-top: 60px;
-
   }
-  .student__image{
+  .student__image {
     max-width: 292px;
     max-height: 352px;
   }

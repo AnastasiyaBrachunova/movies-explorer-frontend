@@ -15,27 +15,8 @@ class MainApi {
     );
   }
 
-  setInitialCard(name, link) {
-    return this._fetch(`/cards`, {
-      method: `POST`,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-      },
-      body: JSON.stringify({
-        name: name,
-        link: link,
-      }),
-    });
-  }
-
-  getAppInfo() {
-    return Promise.all([this.getInitialCards(), this.getUserInfo()]);
-  }
-
-  getInitialCards() {
-    return this._fetch(`/cards`, {
+  getInitialMovies() {
+    return this._fetch(`/movies`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("jwt")}`,
         "Content-Type": "application/json",
@@ -44,15 +25,21 @@ class MainApi {
     });
   }
 
+  //
   getUserInfo() {
-    //получить данные
+    //получить данные текущего пользователя
     return this._fetch(`/users/me`, {
-      Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      method: `GET`,
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        "Content-Type": "application/json",
+      },
     });
   }
 
-  setUserInfo(name, about) {
-    //отправить данные
+  setUserInfo(name, email) {
+    //обновить данные пользователя
     return this._fetch(`/users/me`, {
       method: `PATCH`,
       headers: {
@@ -62,42 +49,14 @@ class MainApi {
       },
       body: JSON.stringify({
         name: name,
-        about: about,
+        email: email,
       }),
     });
   }
 
-  setUserAvatar(avatar) {
-    return this._fetch(`/users/me/avatar`, {
-      method: `PATCH`,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-      },
-      body: JSON.stringify({
-        avatar: avatar,
-      }),
-    });
-  }
-
-  delInitialCards(del) {
-    return this._fetch(`/cards/${del}`, {
+  delInitialMovie(id) {
+    return this._fetch(`/movies/${id}`, {
       method: `DELETE`,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-      },
-      body: JSON.stringify({
-        _id: del,
-      }),
-    });
-  }
-
-  changeLikeCardStatus(id, isLiked) {
-    return this._fetch(`/cards/${id}/likes`, {
-      method: `${isLiked ? "DELETE" : "PUT"}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -108,10 +67,52 @@ class MainApi {
       }),
     });
   }
+
+  addLikeMovieCard(
+    //добавление понравившейся карточки
+    {
+      movieId,
+      country,
+      director,
+      duration,
+      year,
+      description,
+      image,
+      trailerLink,
+      nameRU,
+      nameEN,
+      thumbnail,
+      owner
+    }
+  ) {
+    return this._fetch(`/movies`, {
+      method: `POST`,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+      body: JSON.stringify({
+        movieId: movieId,
+        country: country,
+        director: director,
+        duration: duration,
+        year: year,
+        description: description,
+        image: image,
+        trailerLink: trailerLink,
+        nameRU: nameRU,
+        nameEN: nameEN,
+        thumbnail: thumbnail,
+        owner: owner
+      }),
+    });
+  }
 }
 
 export const mainApi = new MainApi({
   baseUrl: "https://api.brachunova.diplom.nomoredomains.icu",
+
   headers: {
     Authorization: `Bearer ${localStorage.getItem("jwt")}`,
     "Content-Type": "application/json",

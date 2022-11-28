@@ -5,7 +5,7 @@ import "./Footer.css";
 function Footer() {
   return (
     <footer className="section section_footer">
-      <div className="section__title section__title_footer">
+      <div className=" section__title_footer">
         Учебный проект Яндекс.Практикум х BeatFilm.
       </div>
       <div className="footer__info">

@@ -7,7 +7,14 @@ function Header(props) {
   return (
     <header className={`header ${props.class}`}>
       <Link to="/">
-        <img className="header__logo" src={logo} alt="Лого" />
+        <img
+          className="header__logo"
+          src={logo}
+          alt="Лого"
+          onClick={() =>
+            props.sendToLocalFileredMovie && props.sendToLocalFileredMovie()
+          }
+        />
       </Link>
       <>{props.children}</>
     </header>

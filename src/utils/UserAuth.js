@@ -13,7 +13,7 @@ export const register = (name, email, password) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      // Authorization: `Bearer ${localStorage.getItem("jwt")}`,
     },
     body: JSON.stringify({ name, email, password }),
   }).then(chekResponse);
@@ -40,17 +40,3 @@ export const autorize = (email, password) => {
     });
 };
 
-export const checkToken = (token) => {
-  return fetch(`${BaseUrl}/users/me`, {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then(chekResponse)
-    .then((data) => {
-      return data;
-    });
-};
